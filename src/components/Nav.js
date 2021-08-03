@@ -1,26 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
-import { AppBar, makeStyles, Toolbar, Typography, CssBaseline, IconButton, Menu, MenuItem } from '@material-ui/core'
+import { Toolbar, CssBaseline, IconButton, Menu, MenuItem } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+import { Heading,DisplayMail,AppBarWithBackground } from './Nav.elements';
 export default function Nav() {
 
-    const useStyles = makeStyles((theme) => ({
-        grow: {
-            flexGrow: 1
-        },
-        email: {
-            padding: "4%"
-        },
-        appbar: {
-            background: "#b80751"
-        }
-    }));
 
-    const classes = useStyles();
     const [anchorEl, open] = useState(null)
 
     const handleMenu = (event) => {
@@ -48,17 +37,17 @@ export default function Nav() {
     }
 
     return (
-        <div className={classes.root}>
+        <div >
             <CssBaseline />
 
-            <AppBar
+            <AppBarWithBackground
                 position="fixed"
-                className={classes.appbar}
+                
             >
                 <Toolbar >
-                    <Typography align="center" variant="h6" color="inherit" className={classes.grow}>
+                    <Heading align="center" variant="h6" color="inherit" >
                         Task Manager
-                    </Typography>
+                    </Heading>
                     <IconButton
                         area-haspopup="true"
                         color="inherit"
@@ -77,13 +66,13 @@ export default function Nav() {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <p className={classes.email}>Email : {currentUser.email} </p><hr></hr>
+                        <DisplayMail >Email : {currentUser.email} </DisplayMail><hr></hr>
                         <MenuItem component={Link} to="task-manager/update-profile" >Update Profile</MenuItem>
                         <MenuItem onClick={handleLogout}>Log Out</MenuItem>
                     </Menu>
                 </Toolbar>
 
-            </AppBar>
+            </AppBarWithBackground>
             {error && <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
                 {error}

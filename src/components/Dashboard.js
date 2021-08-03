@@ -1,13 +1,13 @@
 
 import React from 'react'
 import Nav from './Nav'
-import AddTaskText from './AddTaskText'
+import Tasks from './Tasks'
 
 export default function Dashboard() {
     return (
         < >
             <Nav />
-            <AddTaskText />      
+            <Tasks />      
         </>
     )
 }

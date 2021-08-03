@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { makeStyles, TextField, Button } from '@material-ui/core';
+import {  TextField, Button } from '@material-ui/core';
 import Sound from 'react-sound';
 import reminderSong from "../songs/reminder.mp3"
 
-export default function AddTaskText() {
+import { AddTaskTextField,AddTaskContainer,AddTaskBtn,NoTasksHeading,TaskTable ,ActionBtn} from './Tasks.elements';
+export default function Tasks() {
 
     let initTasksArray;
     if (localStorage.getItem("tasks") === null) {
@@ -13,34 +14,6 @@ export default function AddTaskText() {
         initTasksArray = JSON.parse(localStorage.getItem("tasks"));
     }
 
-    const useStyles = makeStyles(theme => ({
-        textfield: {
-            width: "60vw"
-        },
-        addContainer: {
-            display: "flex",
-            marginTop: "15vh",
-            justifyContent: "center"
-        },
-
-        addTaskBtn: {
-            marginLeft: "2vw",
-        },
-        noTask: {
-            color: "#3f51b5",
-            textAlign: "center",
-            marginTop: "10vh"
-        },
-        tasksTable: {
-            margin: "5vh auto",
-            color: "#3f51b5"
-        },
-        actionBtn: {
-            margin: "0 1vw"
-        }
-    }));
-
-    const classes = useStyles()
     const [currentTask, setCurrentTask] = useState("")
     const [taskBeingEdited, setTaskBeingEdited] = useState("")
     const [taskArray, setTaskArray] = useState(initTasksArray)
@@ -48,6 +21,8 @@ export default function AddTaskText() {
 
 
     // const [ifDisplayUndone, setIfDisplayUndone] = useState(false)
+
+    
 
     const handleTaskChange = (e) => {
         setCurrentTask(e.target.value)
@@ -63,7 +38,7 @@ export default function AddTaskText() {
 
         setTaskArray([...taskArray, newTask])
         setCurrentTask("")
-        setPlaySong(true)
+        // setPlaySong(true)
     }
 
     const handleEditTaskTextField = (task) => {
@@ -140,9 +115,9 @@ export default function AddTaskText() {
     return (
         <>
             <Fragment >
-                <div className={classes.addContainer}>
-                    <TextField
-                        className={classes.textfield}
+                <AddTaskContainer >
+                    <AddTaskTextField
+                        
                         // InputLabelProps={{
                         //     classes: {
                         //         root: classes.inputLabel,
@@ -158,13 +133,13 @@ export default function AddTaskText() {
                         onChange={handleTaskChange}
                     />
 
-                    <Button className={classes.addTaskBtn} variant="contained" color="primary"
+                    <AddTaskBtn variant="contained" color="primary"
                         onClick={addTask} disabled={currentTask === ""} >
                         ADD
-                    </Button>
-                </div>
+                    </AddTaskBtn>
+                </AddTaskContainer>
                 {taskArray.length > 0 ?
-                    <table className={classes.tasksTable}>
+                    <TaskTable >
                         <thead>
                             <tr>
                                 <th>Task</th>
@@ -193,53 +168,53 @@ export default function AddTaskText() {
                                             <td>
                                                 {task.isEditing ? (
                                                     <>
-                                                        <Button className={classes.actionBtn}
+                                                        <ActionBtn 
                                                             variant="outlined"
                                                             color="primary"
                                                             size="small"
                                                             disabled={taskBeingEdited === ""}
                                                             onClick={() => saveEditTask(task)}
-                                                        >Save</Button>
+                                                        >Save</ActionBtn>
 
-                                                        <Button className={classes.actionBtn}
+                                                        <ActionBtn 
                                                             variant="outlined"
                                                             color="secondary"
                                                             size="small"
                                                             onClick={() => cancelEdit(task)}
-                                                        >Cancel</Button>
+                                                        >Cancel</ActionBtn>
                                                     </>
                                                 ) :
                                                     (
                                                         <>
-                                                            <Button className={classes.actionBtn}
+                                                            <ActionBtn 
                                                                 variant="outlined"
                                                                 color="primary"
                                                                 size="small"
                                                                 onClick={e => editTask(task)}
-                                                            >EDIT</Button>
+                                                            >EDIT</ActionBtn>
 
-                                                            {!task.isDone ? <Button className={classes.actionBtn}
+                                                            {!task.isDone ? <ActionBtn 
                                                                 variant="outlined"
                                                                 color="default"
                                                                 size="small"
                                                                 // disabled={task.isDone}
                                                                 onClick={() => doneTask(task)}
-                                                            >DONE</Button>
-                                                                : <Button className={classes.actionBtn}
+                                                            >DONE</ActionBtn>
+                                                                : <ActionBtn 
                                                                     variant="outlined"
                                                                     color="default"
                                                                     size="small"
                                                                     // disabled={task.isDone}
                                                                     onClick={() => UndoneTask(task)}
-                                                                >UNDONE</Button>
+                                                                >UNDONE</ActionBtn>
                                                             }
 
-                                                            <Button className={classes.actionBtn}
+                                                            <ActionBtn 
                                                                 variant="outlined"
                                                                 color="secondary"
                                                                 size="small"
                                                                 onClick={() => deleteTask(task)}
-                                                            >DELETE</Button>
+                                                            >DELETE</ActionBtn>
                                                         </>
                                                     )
 
@@ -251,8 +226,8 @@ export default function AddTaskText() {
                                 )
                             })
                         }
-                    </table>
-                    : <h2 className={classes.noTask}> NO TASKS TO DO </h2>
+                    </TaskTable>
+                    : <NoTasksHeading> NO TASKS TO DO </NoTasksHeading>
                 }
 
             </Fragment>
